@@ -24,11 +24,12 @@ jobs:
         cd kernel && unzip kernel-build.zip
         cd .. && ./mkboot ./boot.img ./out
         cd out && rm kernel && cp ../kernel/Image ./kernel
+        rm dt.img && cp ../kernel/dtb.img ./dt.img
         cd .. && ./mkboot ./out ./out/boot.img
     # Bước 4: Upload artifacts (tùy chọn)
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: kernel-build
+        name: boot
         path: |
           mkbootimg_tools/out/boot.img
