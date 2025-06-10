@@ -21,7 +21,7 @@ jobs:
     - name: Modify boot.img
       run: |
         cd mkbootimg_tools
-        cd kernel && unzip kernel.zip
+        cd kernel && unzip kernel-build.zip
         cd .. && ./mkboot ./boot.img ./out
         cd out && rm kernel && cp ../kernel/Image ./kernel
         cd .. && ./mkboot ./out ./out/boot.img
