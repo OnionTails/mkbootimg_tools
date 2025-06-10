@@ -1,0 +1,33 @@
+name: Modify boot.img
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Install Dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y git gnupg flex bison gperf build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache libgl1-mesa-dev libxml2-utils xsltproc unzip
+
+    - name: Modify boot.img
+      run: |
+        cd kernel && unzip kernel.zip
+        cd .. && ./mkboot ./boot.img ./out
+        cd out && rm kernel && cp ../kernel/Image ./kernel
+        cd .. && ./mkboot ./out ./out/boot.img
+    # Bước 4: Upload artifacts (tùy chọn)
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: kernel-build
+        path: |
+          out/boot.img
