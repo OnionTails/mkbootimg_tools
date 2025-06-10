@@ -31,4 +31,4 @@ jobs:
       with:
         name: kernel-build
         path: |
-          out/boot.img
+          mkbootimg_tools/out/boot.img
